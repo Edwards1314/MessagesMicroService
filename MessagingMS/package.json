@@ -1,0 +1,22 @@
+{
+  "name": "messagingms",
+  "version": "1.0.0",
+  "description": "Micro service that will handle messaging functionality of our project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Edwards1314/MessagesMicroService.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Edwards1314/MessagesMicroService/issues"
+  },
+  "homepage": "https://github.com/Edwards1314/MessagesMicroService#readme",
+  "dependencies": {
+    "mongojs": "^3.1.0"
+  }
+}
