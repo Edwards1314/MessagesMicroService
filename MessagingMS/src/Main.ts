@@ -2,11 +2,12 @@ import express from "express";
 import bodyParser from "body-parser"
 import { Message } from "./classes/Message";
 import { User } from "./classes/User";
-import { Database } from "./services/Database"
+import { Database } from "./services/Database";
+import figlet from "figlet";
 
 const app = express();
 const port: number = 8080;
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 const database = new Database();
 
 app.post('/', (req, res) => {
@@ -18,19 +19,27 @@ app.post('/', (req, res) => {
     let timestamp = new Date();
     let text = req.body.text;
     let mediaLocation = req.body.mediaLocation;
-    if(mediaLocation){
-        mediaLocation = "http://localhost:"+port+"/media/"+timestamp.getTime();
+    if (mediaLocation) {
+        mediaLocation = "http://localhost:" + port + "/media/" + timestamp.getTime();
     }
     let msg: Message = new Message(chatId, user, timestamp, text, mediaLocation);
     database.addMessage(msg);
 
-    console.log("MESSAGE\n" + JSON.stringify(msg))
-    res.send(msg)
-    res.end()
+    console.log("MESSAGE\n" + JSON.stringify(msg));
+    res.send(msg);
+    res.end();
 })
 
 app.listen(port, () => {
-    console.log("App Started at http://localhost:" + port)
+    figlet("MessagingMS", (err, data) => {
+        if (err) {
+            console.log('Something went wrong...');
+            console.dir(err);
+            return;
+        }
+        console.log(data);
+    })
+    console.log("App Started at http://localhost:" + port);
 })
 
 
