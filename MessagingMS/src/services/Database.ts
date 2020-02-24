@@ -1,7 +1,6 @@
 import mysql from "mysql";
 import { Message } from "../classes/Message";
 import { User } from "../classes/User"
-import { databaseURL, databaseUsername, databasePassword } from "../../Properties"
 
 export class Database {
 
@@ -9,15 +8,16 @@ export class Database {
     private table: string = "Messages";
 
     constructor() {
+        console.log(process.env.databaseURL)
         this.connection = mysql.createConnection({
-            host: databaseURL,
-            user: databaseUsername,
-            password: databasePassword,
-            database: databaseUsername
+            host: process.env.databaseURL,
+            user: process.env.databaseUsername,
+            password: process.env.databasePassword,
+            database: process.env.databaseUsername
         });
         this.connection.connect((err) => {
             if(err) throw err;
-            console.log("Connected to " + databaseURL);
+            console.log("Connected to " + process.env.databaseURL);
         })
     }
 

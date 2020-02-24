@@ -4,11 +4,13 @@ import { Message } from "./classes/Message";
 import { User } from "./classes/User";
 import { Database } from "./services/Database";
 import figlet from "figlet";
+import dotenv from "dotenv";
 
+dotenv.config();
 const app = express();
-const port: number = 8080;
 app.use(bodyParser.json());
 const database = new Database();
+const port = process.env.PORT;
 
 app.post('/', (req, res) => {
     let name: string = req.body.user.name;
