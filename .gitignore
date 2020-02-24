@@ -1,3 +1,13 @@
+#any js files. will show up when built
+*.js
+
+#Ignoring private info
+Properties.ts
+
+#node_modules
+node_modules
+package-lock.json
+
 # Logs
 logs
 *.log
