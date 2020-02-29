@@ -4,10 +4,10 @@ import { User } from "../classes/User"
 
 export class Database {
 
-    private connection: mysql.Connection
-    private table: string = "Messages";
+    private static  connection: mysql.Connection
+    private static table: string = "Messages";
 
-    constructor() {
+    public static connect() {
         console.log(process.env.databaseURL)
         this.connection = mysql.createConnection({
             host: process.env.databaseURL,
@@ -21,7 +21,7 @@ export class Database {
         })
     }
 
-    public addMessage(msg: Message) {
+    public static addMessage(msg: Message) {
         let user: User = msg.getUser();
         mysql.Types.DATE
         let sql = "INSERT INTO " + this.table

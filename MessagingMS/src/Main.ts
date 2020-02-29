@@ -1,36 +1,18 @@
 import express from "express";
 import bodyParser from "body-parser"
-import { Message } from "./classes/Message";
-import { User } from "./classes/User";
-import { Database } from "./services/Database";
 import figlet from "figlet";
 import dotenv from "dotenv";
+import { Database } from "./services/Database";
+import { MessageController } from "./controller/MessageController";
 
 dotenv.config();
 const app = express();
 app.use(bodyParser.json());
-const database = new Database();
+Database.connect();
 const port = process.env.PORT;
 
-app.post('/', (req, res) => {
-    let name: string = req.body.user.name;
-    let id: string = req.body.user.id;
-    let user: User = new User(name, id);
-
-    let chatId = req.body.chatId;
-    let timestamp = new Date();
-    let text = req.body.text;
-    let mediaLocation = req.body.mediaLocation;
-    if (mediaLocation) {
-        mediaLocation = "http://localhost:" + port + "/media/" + timestamp.getTime();
-    }
-    let msg: Message = new Message(chatId, user, timestamp, text, mediaLocation);
-    database.addMessage(msg);
-
-    console.log("MESSAGE\n" + JSON.stringify(msg));
-    res.send(msg);
-    res.end();
-})
+//starting the controllers
+MessageController.start(app, "/sendmessage")
 
 app.listen(port, () => {
     figlet("MessagingMS", (err, data) => {
