@@ -15,10 +15,15 @@ const port = process.env.PORT;
 // MessageController.start(app, "/sendmessage")
 
 app.get("/", (req, res) => {
-    console.log("PORT="+process.env.PORT);
-    console.log("URL="+process.env.databaseURL);
-    console.log("Username="+process.env.databaseUsername);
-    console.log("Password="+process.env.databasePassword);
+    const obj={
+        "PORT": process.env.PORT,
+        "URL":process.env.databaseURL,
+        "USERNAME":process.env.databaseUsername,
+        "PASSWORD":process.env.databasePassword
+    }
+    console.log(JSON.stringify(obj))
+    res.send(JSON.stringify(obj));
+    res.end()
 })
 
 app.listen(port, () => {
