@@ -8,6 +8,8 @@ trigger:
 resources:
 - repo: self
 
+
+
 variables:
 
   # Container registry service connection established during pipeline creation
@@ -18,9 +20,9 @@ variables:
   tag: '$(Build.BuildId)'
   imagePullSecret: 'messagingregistry2829d74d-auth'
 
+
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
-  
 
 stages:
 - stage: Build
@@ -54,6 +56,11 @@ stages:
     pool:
       vmImage: $(vmImageName)
     environment: 'SirSamhainMessagesMicroService-4328.default'
+    NODE_ENV: ${NODE_ENV}
+    PORT: ${PORT}
+    databaseURL: ${databaseURL}
+    databaseUsername: ${databaseUsername}
+    databasePassword: ${databasePassword}
     strategy:
       runOnce:
         deploy:
