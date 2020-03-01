@@ -78,9 +78,18 @@ stages:
                 $(imagePullSecret)
               containers: |
                 $(containerRegistry)/$(imageRepository):$(tag)
-                NODE_ENV: ${NODE_ENV}
-                PORT: ${PORT}
-                databaseURL: ${databaseURL}
-                databaseUsername: ${databaseUsername}
-                databasePassword: ${databasePassword}
+
+                env: 
+                  - name: NODE_ENV
+                  value: $(NODE_ENV)
+                  - name: NODE_ENV
+                  value: $(NODE_ENV)
+                  - name: PORT
+                  value: $(PORT)
+                  - name: databaseURL
+                  value: $(databaseURL)
+                  - name: databaseUsername
+                  value: $(databaseUsername)
+                  - name: databasePassword
+                  value: $(databasePassword)
 
