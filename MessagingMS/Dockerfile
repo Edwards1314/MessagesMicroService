@@ -2,11 +2,11 @@ FROM node:12
 
 #create directory
 RUN mkdir -p /usr
-WORKDIR /usr
+WORKDIR /usr/
 
-COPY package*.json .
+COPY package*.json ./
 RUN npm install
-COPY . .
+COPY . ./
 
 RUN npm run start
 
