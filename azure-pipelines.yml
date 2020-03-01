@@ -12,7 +12,7 @@ variables:
   azureSubscription: '99473dcf-238b-4224-9466-3029c3948c07'
   
   # Web app name
-  webAppName: 'MessagesMS'
+  webAppName: 'MessagingMS'
   
   # Environment name
   environmentName: 'development'
