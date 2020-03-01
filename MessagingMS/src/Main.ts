@@ -12,7 +12,14 @@ Database.connect();
 const port = process.env.PORT;
 
 //starting the controllers
-MessageController.start(app, "/sendmessage")
+// MessageController.start(app, "/sendmessage")
+
+app.get("/", (req, res) => {
+    console.log("PORT="+process.env.PORT);
+    console.log("URL="+process.env.databaseURL);
+    console.log("Username="+process.env.databaseUsername);
+    console.log("Password="+process.env.databasePassword);
+})
 
 app.listen(port, () => {
     figlet("MessagingMS", (err, data) => {
@@ -23,6 +30,10 @@ app.listen(port, () => {
         }
         console.log(data);
     })
+    console.log("PORT="+process.env.PORT);
+    console.log("URL="+process.env.databaseURL);
+    console.log("Username="+process.env.databaseUsername);
+    console.log("Password="+process.env.databasePassword);
     console.log("App Started at http://localhost:" + port);
 })
 

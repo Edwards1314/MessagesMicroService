@@ -1,12 +1,8 @@
 FROM node:12
 
-#Variables
-ENV PORT 8080
-ENV WDIR /usr
-
 #create directory
-RUN mkdir -p ${WDIR}
-WORKDIR ${WDIR}
+RUN mkdir -p /usr
+WORKDIR /usr
 
 COPY package*.json .
 RUN npm install
@@ -14,5 +10,5 @@ COPY . .
 
 RUN npm run start
 
-EXPOSE ${PORT}
+EXPOSE 8080
 CMD ["npm", "start"] 
