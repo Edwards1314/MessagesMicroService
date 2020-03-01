@@ -1,0 +1,16 @@
+apiVersion : apps/v1beta1
+kind: Deployment
+metadata:
+  name: sirsamhainmessagesmicroservice 
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sirsamhainmessagesmicroservice 
+    spec:
+      containers:
+        - name: sirsamhainmessagesmicroservice 
+          image: messagingregistry.azurecr.io/sirsamhainmessagesmicroservice
+          ports:
+          - containerPort: 80
