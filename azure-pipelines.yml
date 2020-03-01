@@ -56,11 +56,6 @@ stages:
     pool:
       vmImage: $(vmImageName)
     environment: 'SirSamhainMessagesMicroService-4328.default'
-    NODE_ENV: ${NODE_ENV}
-    PORT: ${PORT}
-    databaseURL: ${databaseURL}
-    databaseUsername: ${databaseUsername}
-    databasePassword: ${databasePassword}
     strategy:
       runOnce:
         deploy:
@@ -83,4 +78,9 @@ stages:
                 $(imagePullSecret)
               containers: |
                 $(containerRegistry)/$(imageRepository):$(tag)
+                NODE_ENV: ${NODE_ENV}
+                PORT: ${PORT}
+                databaseURL: ${databaseURL}
+                databaseUsername: ${databaseUsername}
+                databasePassword: ${databasePassword}
 
