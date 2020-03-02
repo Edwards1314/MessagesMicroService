@@ -8,6 +8,8 @@ trigger:
 resources:
 - repo: self
 
+
+
 variables:
 
   # Container registry service connection established during pipeline creation
@@ -17,10 +19,11 @@ variables:
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'messagingregistry2829d74d-auth'
+  messagingenv: 'messagingenv'
+
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
-  
 
 stages:
 - stage: Build
@@ -64,6 +67,7 @@ stages:
               action: createSecret
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+          
               
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
@@ -74,6 +78,6 @@ stages:
                 $(Pipeline.Workspace)/manifests/service.yml
               imagePullSecrets: |
                 $(imagePullSecret)
+                $(messagingenv)
               containers: |
                 $(containerRegistry)/$(imageRepository):$(tag)
-
