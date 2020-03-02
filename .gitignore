@@ -2,7 +2,6 @@
 *.js
 
 #Ignoring private info
-Properties.ts
 .env
 
 #node_modules
