@@ -6,20 +6,21 @@ import { Database } from "./services/Database";
 import { MessageController } from "./controller/MessageController";
 
 dotenv.config();
+import { Properties } from "./Properties"
 const app = express();
 app.use(bodyParser.json());
 Database.connect();
-const port = process.env.PORT;
+const port = Properties.PORT;
 
 //starting the controllers
 // MessageController.start(app, "/sendmessage")
 
 app.get("/", (req, res) => {
     const obj={
-        "PORT": process.env.PORT,
-        "URL":process.env.databaseURL,
-        "USERNAME":process.env.databaseUsername,
-        "PASSWORD":process.env.databasePassword
+        "PORT": Properties.PORT,
+        "URL":Properties.databaseURL,
+        "USERNAME":Properties.databaseUsername,
+        "PASSWORD":Properties.databasePassword
     }
     console.log(JSON.stringify(obj))
     res.send(JSON.stringify(obj));
@@ -35,10 +36,10 @@ app.listen(port, () => {
         }
         console.log(data);
     })
-    console.log("PORT="+process.env.PORT);
-    console.log("URL="+process.env.databaseURL);
-    console.log("Username="+process.env.databaseUsername);
-    console.log("Password="+process.env.databasePassword);
+    console.log("PORT="+Properties.PORT);
+    console.log("URL="+Properties.databaseURL);
+    console.log("Username="+Properties.databaseUsername);
+    console.log("Password="+Properties.databasePassword);
     console.log("App Started at http://localhost:" + port);
 })
 
