@@ -2,18 +2,18 @@ import express from "express";
 import bodyParser from "body-parser"
 import figlet from "figlet";
 import dotenv from "dotenv";
-// import { Database } from "./services/Database";
+import { Database } from "./services/Database";
 import { MessageController } from "./controller/MessageController";
 
 dotenv.config();
 import { Properties } from "./Properties"
 const app = express();
 app.use(bodyParser.json());
-// Database.connect();
+Database.connect();
 const port = Properties.PORT;
 
 //starting the controllers
-// MessageController.start(app, "/sendmessage")
+MessageController.start(app, "/sendmessage")
 
 app.get("/", (req, res) => {
     const obj={

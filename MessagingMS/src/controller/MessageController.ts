@@ -2,6 +2,7 @@ import express from "express";
 import { User } from "../classes/User";
 import { Message } from "../classes/Message";
 import { Database } from "../services/Database";
+import { Properties } from "../Properties";
 
 export class MessageController{
 
@@ -25,7 +26,7 @@ export class MessageController{
         let text = body.text;
         let mediaLocation = body.mediaLocation;
         if (mediaLocation) {
-            mediaLocation = "http://localhost:" + process.env.PORT + "/media/" + timestamp.getTime();
+            mediaLocation = "http://localhost:" + Properties.PORT + "/media/" + timestamp.getTime();
         }
         return  new Message(chatId, user, timestamp, text, mediaLocation);
     }
