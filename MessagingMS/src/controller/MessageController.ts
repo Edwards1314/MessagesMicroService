@@ -20,11 +20,13 @@ export class MessageController{
                     console.log(response)
                 }
                 res.end();
-            });            
+            })
+
         });
     }
 
     private static getMessage(body: any): Message{
+        
         let name: string = body.user.name;
         let id: string = body.user.id;
         let user: User = new User(name, id);

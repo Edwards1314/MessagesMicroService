@@ -25,10 +25,10 @@ const MessagesSchema: mongoose.Schema = new mongoose.Schema({
     mediaLocation: {type:String, required: false}
 })
 
-const Messages = mongoose.model("Messages", MessagesSchema);
-
+//create a new message
 export default async function addMessage(msg:Message, fn:any) {
-    let message = new Messages(msg);
+    let Chat = mongoose.model(msg.getChatId(), MessagesSchema);
+    let message = new Chat(msg);
     return message.save((err: Error) => {
         if(err){
             fn(err.message);
@@ -38,26 +38,10 @@ export default async function addMessage(msg:Message, fn:any) {
     })
 }
 
+//delete thread
+//if thread doesn't exist then also add the chatid under the users "associated chats" 
+//so we can listen to it.
+//learn how to create a listening route. ***RxJs Observables***
 
-    
-        
-        
-    
-
-    // public static addMessage(msg: Message) {
-    //     let user: User = msg.getUser();
-    //     mysql.Types.DATE
-    //     let sql = "INSERT INTO " + this.table
-    //         + " VALUES ('" + user.getId() + "','" + msg.getChatId()
-    //         + "'," + this.connection.escape(msg.getDate()) + ",'" + msg.getText()
-    //         + "','" + msg.getMediaLocation() + "');";
-    //     console.log(sql);
-    //     this.connection.query(sql, (err, result) => {
-    //         if (err) throw err;
-    //         console.log(JSON.stringify(msg) + " inserted into " + this.table);
-    //     });
-        
-
-    // }
 
 
