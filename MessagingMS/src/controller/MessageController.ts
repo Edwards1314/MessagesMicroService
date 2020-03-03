@@ -1,18 +1,26 @@
 import express from "express";
 import { User } from "../classes/User";
 import { Message } from "../classes/Message";
-import { Database } from "../services/Database";
 import { Properties } from "../Properties";
+import  addMessage  from "../services/Database"
 
 export class MessageController{
 
     public static start(app: express.Application, resource: string){
-        app.post(resource, (req, res) => {
+        app.post(resource, async (req, res) => {
             let msg: Message = this.getMessage(req.body);
-            Database.addMessage(msg);        
-            console.log("MESSAGE\n" + JSON.stringify(msg));
-            res.send(msg);
-            res.end();
+
+            await addMessage(msg, (response: string) => {
+                if(response == "SUCCESS"){
+                    res.send(msg);
+                    console.log(msg);
+                }else{ 
+                    res.status(400);
+                    res.send(response);
+                    console.log(response)
+                }
+                res.end();
+            });            
         });
     }
 
