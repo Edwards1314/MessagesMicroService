@@ -1,27 +1,30 @@
-import express from "express";
+import express, { response } from "express";
 import bodyParser from "body-parser"
 import figlet from "figlet";
 import dotenv from "dotenv";
-import { MessageController } from "./controller/MessageController";
-
+import path from "path";
 dotenv.config();
 import { Properties } from "./Properties"
-const app = express();
+import messageController from "./controller/MessageController"
+
+const app: express.Application = express();
 app.use(bodyParser.json());
 const port = Properties.PORT;
+app.route("./controller/MessageController")
 
-//starting the controllers
-MessageController.start(app, "/sendmessage")
+//Starting the routes
+messageController(app);
+
+//HOME DIRECTORY
 app.get("/", (req, res) => {
-    const obj={
-        "PORT": Properties.PORT,
-        "URL":Properties.databaseURL,
-        "USERNAME":Properties.databaseUsername,
-        "PASSWORD":Properties.databasePassword
-    }
-    console.log(JSON.stringify(obj))
-    res.send(JSON.stringify(obj));
-    res.end()
+    let file: string = path.join(__dirname+"/index.html");
+    res.sendFile(file, (err) => {
+        if(err){
+            res.status(404);
+            res.send(err.message);
+        }
+        res.end();
+    })    
 })
 
 app.listen(port, () => {
