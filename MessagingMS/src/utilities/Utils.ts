@@ -1,9 +1,10 @@
 import { Message } from "../classes/Message";
 import { User } from "../classes/User";
 import { Properties } from "../Properties";
+import mongoose from "mongoose";
 
-export function getMessage(body: any): Message{
-        
+export const getMessage = (body: any): Message => {
+
     let name: string = body.user.name;
     let id: string = body.user.id;
     let user: User = new User(name, id);
@@ -15,9 +16,9 @@ export function getMessage(body: any): Message{
     if (mediaLocation) {
         mediaLocation = "http://localhost:" + Properties.PORT + "/media/" + timestamp.getTime();
     }
-    return  new Message(chatId, user, timestamp, text, mediaLocation);
+    return new Message(chatId, user, timestamp, text, mediaLocation);
 }
 
-export function endsWithNumber(chatId: string): boolean{
-    return !isNaN(parseInt(chatId.charAt(chatId.length-1)));
+export const threadExists = (): boolean => {
+    return true;
 }
