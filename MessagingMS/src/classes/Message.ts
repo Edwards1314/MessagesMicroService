@@ -7,23 +7,20 @@ import { User } from "./User";
 */
 
 export class Message {
-    private chatId: string;
-    private user: User;
+    private from: User;
     private timestamp: Date;
-    private text?: string;
+    private message?: string;
     private mediaLocation?: string;
 
-    constructor(chatId: string, user: User, timestamp: Date, text?: string, mediaLocation?: string) {
-        this.chatId = chatId;
-        this.user = user;
-        this.text = text;
+    constructor(from: User, timestamp: Date, message?: string, mediaLocation?: string) {
+        this.from = from;
+        this.message = message;
         this.mediaLocation = mediaLocation;
         this.timestamp = timestamp;
     }
-    public getChatId(): string { return this.chatId; }
-    public getUser(): User { return this.user; }
+    public getUser(): User { return this.from; }
     public getDate(): Date { return this.timestamp; }
-    public getText(): string { return this.text == null ? "" : this.text; }
+    public getMessage(): string { return this.message == null ? "" : this.message; }
     public getMediaLocation(): string { return this.mediaLocation == null ? "" : this.mediaLocation; }    
 
 }

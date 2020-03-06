@@ -1,11 +1,11 @@
-import express, { response } from "express";
+import express from "express";
 import bodyParser from "body-parser"
 import figlet from "figlet";
 import dotenv from "dotenv";
-import path from "path";
 dotenv.config();
 import { Properties } from "./Properties"
 import messageController from "./controller/MessageController"
+import home from "./controller/HomeController";
 
 const app: express.Application = express();
 app.use(bodyParser.json());
@@ -14,18 +14,8 @@ app.route("./controller/MessageController")
 
 //Starting the routes
 messageController(app);
+home(app);
 
-//HOME DIRECTORY
-app.get("/", (req, res) => {
-    let file: string = path.join(__dirname+"/index.html");
-    res.sendFile(file, (err) => {
-        if(err){
-            res.status(404);
-            res.send(err.message);
-        }
-        res.end();
-    })    
-})
 
 app.listen(port, () => {
     figlet("MessagingMS", (err, data) => {
