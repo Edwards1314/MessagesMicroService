@@ -36,7 +36,11 @@ const MessagesSchema: mongoose.Schema = new mongoose.Schema({
     }]    
 });
 
-//add message
+/**
+ * ROUTING
+ * if the chat exists then it goes to the update
+ * otherwise to add
+ */
 export async function route(req: Request, res: Response) {
     if (req.body.exists == true) {
         update(res, req.body);
@@ -46,7 +50,11 @@ export async function route(req: Request, res: Response) {
 
 }
 
-//delete thread
+/**
+ * DELETE
+ * Deletes an entire chat from
+ * the database
+ */
 export async function deleteChat(req: Request, res: Response) {
     let chatId: string = req.query.chatId;
     if (chatId == null) {
@@ -65,6 +73,33 @@ export async function deleteChat(req: Request, res: Response) {
             res.end();
         });
     }
+}
+
+/**
+ * GET
+ * Get all the messages from a specific thread/chat 
+ */
+export const getmessages = async (req: Request, res: Response) => {
+    let Chat = mongoose.model(req.query.chatId, MessagesSchema, req.query.chatId); 
+    return Chat.findOne({chatId: req.query.chatId}, (err, chat) => {
+        if (err){
+            res.status(404);
+            console.log(err);
+            res.send(err);
+        }else{        
+            try{
+                console.log("================"+req.query.chatId+" MESSAGES================")
+                console.log(chat)
+                //@ts-ignore
+                res.send(chat!.messages);
+            }catch(readErr){
+                res.status(500);
+                console.log(readErr);
+                res.send(readErr);
+            }
+        }
+        res.end();
+    });
 }
 
 /**
