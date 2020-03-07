@@ -6,7 +6,7 @@ import { DatabaseObject } from "../classes/DatabaseObject";
 export const getDbObject = (body: any): DatabaseObject => {
     let users: User[] = [];
     body.users.forEach( (user: any) => {
-        users.push(new User(user.user.name, user.user.id));
+        users.push(new User(user.name, user.id));
     });
     let msg: Message = getMessage(body);
     users.push(msg.getUser());

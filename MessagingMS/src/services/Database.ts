@@ -82,7 +82,15 @@ const addMessage = async (res: Response, body: any) => {
             res.send(err);
             console.log(err);
         } else {
-            res.send(dbObject);
+            res.send({
+                _id: message._id,
+                added: dbObject
+            });
+            console.log("================"+body.chatId+" ADDED================")
+            console.log({
+                _id: message._id,
+                added: dbObject
+            });
             console.log(dbObject);
         }
         res.end();
@@ -99,14 +107,18 @@ const update = async (res: Response, body: any) => {
     return Chat.findOne({chatId: body.chatId}, (err, chat) => {
         if (err){
             res.status(404);
+            console.log(err);
             res.send(err);
         }else{        
             try{
                 //@ts-ignore 
                 chat!.messages!.push(getMessage(body));
+                console.log("================"+body.chatId+" UPDATED================")
+                console.log(body)
                 res.send(body);
             }catch(saveErr){
                 res.status(500);
+                console.log(saveErr);
                 res.send(saveErr);
             }
         }
