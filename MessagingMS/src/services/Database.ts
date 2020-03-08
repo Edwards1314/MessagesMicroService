@@ -7,7 +7,7 @@ import { DatabaseObject } from "../classes/DatabaseObject";
 const options: mongoose.ConnectionOptions = {
     useNewUrlParser: true,
     dbName: "Messages"
-}
+};
 
 mongoose.connect(Properties.databaseURL, options, (err) => {
     if (err) {
@@ -106,6 +106,20 @@ export const getmessages = async (req: Request, res: Response) => {
 }
 
 /**
+ * SYNC
+ * For when client reinstalls then this should be called in order to sync
+ * back their messages
+ */
+export const sync = async (req: Request, res: Response) => {
+    let chats: string[] = [];
+    await(await mongoose.connection.db.collections()).forEach(collection => {
+        chats.push(collection.collectionName)
+    })
+    res.send({"status": "SUCCESS", "chats": chats})
+    res.end();
+}
+
+/**
  * ADD
  * If message exists then just append message to the messages
  * array
@@ -164,16 +178,6 @@ const update = async (res: Response, body: any) => {
         res.end();
     });
 }
-
-/**
- * SYNC
- * For when client reinstalls then this should be called in order to sync
- * back their messages
- */
-
-
-
-
 
 //if thread doesn't exist then also add the chatid under the users "associated chats" 
 //so we can listen to it.
