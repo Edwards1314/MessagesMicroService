@@ -17,22 +17,21 @@ GET /api/messages/sync
 - currently returns the names of all collections in db
 
 # REQUEST
+```json
 {
-	"chatId": "string",
-	"exists": false,
-	"text": "string",
-	"mediaLocation": "string",
-	"from": {
-		"name": "joel",
-		"id": "creator"
-	},
-	"users": [
-		{
-			
-			"name": "Rhett",
-			"id": "creator1"
-			
-		}	
-	]
-	
+   "chatId":"string",
+   "exists":false,
+   "text":"string",
+   "mediaLocation":"string",
+   "from":{
+      "name":"joel",
+      "id":"creator"
+   },
+   "users":[
+      {
+         "name":"Rhett",
+         "id":"creator1"
+      }
+   ]
 }
+```
