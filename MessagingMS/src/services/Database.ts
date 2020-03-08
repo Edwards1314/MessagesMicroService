@@ -68,7 +68,10 @@ export async function deleteChat(req: Request, res: Response) {
                 res.status(404);
                 res.send(err);
             } else {
-                res.send("SUCCESS")
+                res.send({
+                    status: "SUCCESS",
+                    deleted: req.query.chatId
+                })
             }
             res.end();
         });
