@@ -7,7 +7,7 @@ import { DatabaseObject } from "../classes/DatabaseObject";
 const options: mongoose.ConnectionOptions = {
     useNewUrlParser: true,
     dbName: "Messages"
-}
+};
 
 mongoose.connect(Properties.databaseURL, options, (err) => {
     if (err) {
@@ -36,7 +36,11 @@ const MessagesSchema: mongoose.Schema = new mongoose.Schema({
     }]    
 });
 
-//add message
+/**
+ * ROUTING
+ * if the chat exists then it goes to the update
+ * otherwise to add
+ */
 export async function route(req: Request, res: Response) {
     if (req.body.exists == true) {
         update(res, req.body);
@@ -46,7 +50,11 @@ export async function route(req: Request, res: Response) {
 
 }
 
-//delete thread
+/**
+ * DELETE
+ * Deletes an entire chat from
+ * the database
+ */
 export async function deleteChat(req: Request, res: Response) {
     let chatId: string = req.query.chatId;
     if (chatId == null) {
@@ -60,11 +68,55 @@ export async function deleteChat(req: Request, res: Response) {
                 res.status(404);
                 res.send(err);
             } else {
-                res.send("SUCCESS")
+                res.send({
+                    status: "SUCCESS",
+                    deleted: req.query.chatId
+                })
             }
             res.end();
         });
     }
+}
+
+/**
+ * GET
+ * Get all the messages from a specific thread/chat 
+ */
+export const getmessages = async (req: Request, res: Response) => {
+    let Chat = mongoose.model(req.query.chatId, MessagesSchema, req.query.chatId); 
+    return Chat.findOne({chatId: req.query.chatId}, (err, chat) => {
+        if (err){
+            res.status(404);
+            console.log(err);
+            res.send(err);
+        }else{        
+            try{
+                console.log("================"+req.query.chatId+" MESSAGES================")
+                console.log(chat)
+                //@ts-ignore
+                res.send(chat!.messages);
+            }catch(readErr){
+                res.status(500);
+                console.log(readErr);
+                res.send(readErr);
+            }
+        }
+        res.end();
+    });
+}
+
+/**
+ * SYNC
+ * For when client reinstalls then this should be called in order to sync
+ * back their messages
+ */
+export const sync = async (req: Request, res: Response) => {
+    let chats: string[] = [];
+    await(await mongoose.connection.db.collections()).forEach(collection => {
+        chats.push(collection.collectionName)
+    })
+    res.send({"status": "SUCCESS", "chats": chats})
+    res.end();
 }
 
 /**
@@ -82,7 +134,15 @@ const addMessage = async (res: Response, body: any) => {
             res.send(err);
             console.log(err);
         } else {
-            res.send(dbObject);
+            res.send({
+                _id: message._id,
+                added: dbObject
+            });
+            console.log("================"+body.chatId+" ADDED================")
+            console.log({
+                _id: message._id,
+                added: dbObject
+            });
             console.log(dbObject);
         }
         res.end();
@@ -99,14 +159,18 @@ const update = async (res: Response, body: any) => {
     return Chat.findOne({chatId: body.chatId}, (err, chat) => {
         if (err){
             res.status(404);
+            console.log(err);
             res.send(err);
         }else{        
             try{
                 //@ts-ignore 
                 chat!.messages!.push(getMessage(body));
+                console.log("================"+body.chatId+" UPDATED================")
+                console.log(body)
                 res.send(body);
             }catch(saveErr){
                 res.status(500);
+                console.log(saveErr);
                 res.send(saveErr);
             }
         }
@@ -114,16 +178,6 @@ const update = async (res: Response, body: any) => {
         res.end();
     });
 }
-
-/**
- * SYNC
- * For when client reinstalls then this should be called in order to sync
- * back their messages
- */
-
-
-
-
 
 //if thread doesn't exist then also add the chatid under the users "associated chats" 
 //so we can listen to it.

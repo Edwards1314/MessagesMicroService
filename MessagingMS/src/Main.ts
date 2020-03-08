@@ -6,9 +6,11 @@ dotenv.config();
 import { Properties } from "./Properties"
 import messageController from "./controller/MessageController"
 import home from "./controller/HomeController";
+import cors from "cors";
 
 const app: express.Application = express();
 app.use(bodyParser.json());
+app.use(cors());
 const port = Properties.PORT;
 app.route("./controller/MessageController")
 
